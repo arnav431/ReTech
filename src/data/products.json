@@ -1,0 +1,368 @@
+{
+  "products": [
+    {
+      "id": "custom-pc-1",
+      "name": "i7 12th Gen with GeForce RTX3080 PC",
+      "brand": "Custom PC",
+      "category": "Desktop",
+      "description": "High-End Gaming Desktop with RTX 3080",
+      "price": 89999,
+      "original_price": 159999,
+      "discount_percentage": 40,
+      "image": "/src/images/Tower-PC.png",
+      "condition": "New",
+      "stock": 5,
+      "rating": 4.8,
+      "reviews": 12,
+      "specs": {
+        "processor": "Intel Core i7 12th Gen",
+        "graphics": "NVIDIA GeForce RTX 3080",
+        "ram": "32GB DDR4",
+        "storage": "1TB NVMe SSD"
+      },
+      "tags": [
+        "gaming",
+        "high-end",
+        "custom-built"
+      ]
+    },
+    {
+      "id": "amd-ryzen-5950x",
+      "name": "AMD Ryzen 9 5950X",
+      "brand": "AMD",
+      "category": "Processor",
+      "description": "High-Performance Desktop Processor",
+      "price": 31999,
+      "original_price": 37999,
+      "discount_percentage": 15,
+      "image": "/src/images/Amd-Ryzen-9-5950X-Processor.png",
+      "condition": "New",
+      "stock": 8,
+      "rating": 4.9,
+      "reviews": 25,
+      "specs": {
+        "cores": "16",
+        "threads": "32",
+        "base_clock": "3.4 GHz",
+        "boost_clock": "4.9 GHz"
+      },
+      "tags": [
+        "processor",
+        "high-performance",
+        "gaming"
+      ]
+    },
+    {
+      "id": "asus-h610m-e",
+      "name": "ASUS PRIME H610M-E D4",
+      "brand": "ASUS",
+      "category": "Motherboard",
+      "description": "Intel LGA 1700 Motherboard",
+      "price": 8499,
+      "original_price": 9499,
+      "discount_percentage": 10,
+      "image": "/src/images/ASUS_PRIME_H610M-E_D4_MOTHERBOARD.png",
+      "condition": "New",
+      "stock": 15,
+      "rating": 4.6,
+      "reviews": 8,
+      "specs": {
+        "socket": "LGA 1700",
+        "chipset": "Intel H610",
+        "form_factor": "mATX",
+        "memory_slots": "2"
+      },
+      "tags": [
+        "motherboard",
+        "intel",
+        "lga1700"
+      ]
+    },
+    {
+      "id": "cooler-master-sedion",
+      "name": "Cooler Master Sedion 120V",
+      "brand": "Cooler Master",
+      "category": "Cooling",
+      "description": "Liquid CPU Cooler",
+      "price": 5999,
+      "original_price": 6999,
+      "discount_percentage": 15,
+      "image": "/src/images/Cooler-Master-Sedion-120V.png",
+      "condition": "New",
+      "stock": 12,
+      "rating": 4.5,
+      "reviews": 18,
+      "specs": {
+        "type": "AIO Liquid Cooler",
+        "radiator_size": "120mm",
+        "fan_speed": "650-1800 RPM",
+        "noise_level": "6-27 dBA"
+      },
+      "tags": [
+        "cooling",
+        "liquid-cooler",
+        "aio"
+      ]
+    },
+    {
+      "id": "intel-pentium",
+      "name": "Intel Pentium Dual Core",
+      "brand": "Intel",
+      "category": "Processor",
+      "description": "Entry Level Desktop Processor",
+      "price": 3749,
+      "original_price": 4999,
+      "discount_percentage": 25,
+      "image": "/src/images/IntelPentiumDualCore.png",
+      "condition": "New",
+      "stock": 20,
+      "rating": 4.2,
+      "reviews": 6,
+      "specs": {
+        "cores": "2",
+        "threads": "2",
+        "base_clock": "3.0 GHz",
+        "cache": "3MB"
+      },
+      "tags": [
+        "processor",
+        "entry-level",
+        "budget"
+      ]
+    },
+    {
+      "id": "raspberry-pi-4",
+      "name": "Raspberry Pi 4 Model B",
+      "brand": "Raspberry Pi",
+      "category": "Single Board Computer",
+      "description": "2GB RAM Single Board Computer",
+      "price": 4499,
+      "original_price": 4999,
+      "discount_percentage": 10,
+      "image": "/src/images/Raspberry-Pi-4-Model-B-2GB-RAM.png",
+      "condition": "New",
+      "stock": 30,
+      "rating": 4.7,
+      "reviews": 42,
+      "specs": {
+        "processor": "Broadcom BCM2711",
+        "ram": "2GB LPDDR4",
+        "storage": "MicroSD",
+        "ports": "2x USB 3.0, 2x USB 2.0"
+      },
+      "tags": [
+        "single-board",
+        "raspberry-pi",
+        "iot"
+      ]
+    },
+    {
+      "id": "raspberry-pi-zero-2w",
+      "name": "Raspberry Pi Zero 2W",
+      "brand": "Raspberry Pi",
+      "category": "Single Board Computer",
+      "description": "Compact Single Board Computer",
+      "price": 1599,
+      "original_price": 1999,
+      "discount_percentage": 20,
+      "image": "/src/images/Raspberry-Pi-Zero-2W.png",
+      "condition": "New",
+      "stock": 25,
+      "rating": 4.4,
+      "reviews": 15,
+      "specs": {
+        "processor": "Broadcom BCM2710A1",
+        "ram": "512MB LPDDR2",
+        "storage": "MicroSD",
+        "wireless": "WiFi + Bluetooth"
+      },
+      "tags": [
+        "single-board",
+        "compact",
+        "iot"
+      ]
+    },
+    {
+      "id": "samsung-monitor-22",
+      "name": "Samsung 22\" Monitor",
+      "brand": "Samsung",
+      "category": "Monitor",
+      "description": "60Hz FHD Flat Panel Display",
+      "price": 8999,
+      "original_price": 11999,
+      "discount_percentage": 25,
+      "image": "/src/images/Samsung-60Hz-22-inch-FHD-Flat-Monitor.png",
+      "condition": "New",
+      "stock": 10,
+      "rating": 4.3,
+      "reviews": 9,
+      "specs": {
+        "screen_size": "22 inch",
+        "resolution": "1920x1080",
+        "refresh_rate": "60Hz",
+        "response_time": "5ms"
+      },
+      "tags": [
+        "monitor",
+        "fhd",
+        "samsung"
+      ]
+    },
+    {
+      "id": "samsung-ddr3-8gb",
+      "name": "Samsung 8GB DDR3 RAM",
+      "brand": "Samsung",
+      "category": "Memory",
+      "description": "1600 MHz Desktop Memory",
+      "price": 2099,
+      "original_price": 2999,
+      "discount_percentage": 30,
+      "image": "/src/images/Samsung-8gb-DDR3-RAM-1600-MHz.png",
+      "condition": "New",
+      "stock": 35,
+      "rating": 4.6,
+      "reviews": 22,
+      "specs": {
+        "capacity": "8GB",
+        "type": "DDR3",
+        "speed": "1600 MHz",
+        "latency": "CL11"
+      },
+      "tags": [
+        "memory",
+        "ddr3",
+        "ram"
+      ]
+    },
+    {
+      "id": "samsung-980-ssd",
+      "name": "Samsung 980 SSD",
+      "brand": "Samsung",
+      "category": "Storage",
+      "description": "500GB NVMe M.2 SSD",
+      "price": 4799,
+      "original_price": 5999,
+      "discount_percentage": 20,
+      "image": "/src/images/samsung-internal-ssd_980_500gb-from_tpstech.in-main1.png",
+      "condition": "New",
+      "stock": 18,
+      "rating": 4.8,
+      "reviews": 31,
+      "specs": {
+        "capacity": "500GB",
+        "interface": "NVMe M.2",
+        "read_speed": "3500 MB/s",
+        "write_speed": "3000 MB/s"
+      },
+      "tags": [
+        "storage",
+        "ssd",
+        "nvme"
+      ]
+    },
+    {
+      "id": "wd-1tb-hdd",
+      "name": "Western Digital 1TB HDD",
+      "brand": "Western Digital",
+      "category": "Storage",
+      "description": "3.5\" SATA Hard Drive",
+      "price": 3399,
+      "original_price": 3999,
+      "discount_percentage": 15,
+      "image": "/src/images/1TB-Western-Digital-3.5-inch.png",
+      "condition": "New",
+      "stock": 22,
+      "rating": 4.4,
+      "reviews": 16,
+      "specs": {
+        "capacity": "1TB",
+        "interface": "SATA 6Gb/s",
+        "rpm": "7200",
+        "cache": "64MB"
+      },
+      "tags": [
+        "storage",
+        "hdd",
+        "sata"
+      ]
+    },
+    {
+      "id": "gigabyte-gtx-1650",
+      "name": "GIGABYTE GTX 1650 D6",
+      "brand": "GIGABYTE",
+      "category": "Graphics Card",
+      "description": "4GB GDDR6 Graphics Card",
+      "price": 15999,
+      "original_price": 19999,
+      "discount_percentage": 20,
+      "image": "/src/images/4GB-GDDR6-GIGABYTE-Nvidia-GeForce-GTX-1650-D6-Graphics-Card.png",
+      "condition": "New",
+      "stock": 7,
+      "rating": 4.5,
+      "reviews": 28,
+      "specs": {
+        "memory": "4GB GDDR6",
+        "core_clock": "1665 MHz",
+        "memory_interface": "128-bit",
+        "tdp": "75W"
+      },
+      "tags": [
+        "graphics-card",
+        "gaming",
+        "gtx"
+      ]
+    }
+  ],
+  "categories": [
+    {
+      "id": "all",
+      "name": "All Products",
+      "icon": "fa-th"
+    },
+    {
+      "id": "desktop",
+      "name": "Desktops",
+      "icon": "fa-desktop"
+    },
+    {
+      "id": "processor",
+      "name": "Processors",
+      "icon": "fa-microchip"
+    },
+    {
+      "id": "motherboard",
+      "name": "Motherboards",
+      "icon": "fa-server"
+    },
+    {
+      "id": "cooling",
+      "name": "Cooling",
+      "icon": "fa-snowflake"
+    },
+    {
+      "id": "single-board-computer",
+      "name": "Single Board",
+      "icon": "fa-microchip"
+    },
+    {
+      "id": "monitor",
+      "name": "Monitors",
+      "icon": "fa-tv"
+    },
+    {
+      "id": "memory",
+      "name": "Memory",
+      "icon": "fa-memory"
+    },
+    {
+      "id": "storage",
+      "name": "Storage",
+      "icon": "fa-hdd"
+    },
+    {
+      "id": "graphics-card",
+      "name": "Graphics Cards",
+      "icon": "fa-gamepad"
+    }
+  ]
+}

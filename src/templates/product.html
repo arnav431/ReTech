@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://unpkg.com/lottie-web@5.12.2/build/player/lottie.min.js"></script>
+  <title>ReTech - Sell</title>
+  <link rel="icon" href="/src/images/favicon.png">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {}
+      }
+    }
+  </script>
+  <style>
+    .green-dot {
+      color: #88d889;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+    
+    .form-card {
+      width: 100% !important;
+      display: block !important;
+      box-sizing: border-box !important;
+    }
+    
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .product-card {
+      backdrop-filter: blur(10px);
+      background-color: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(136, 216, 137, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(136, 216, 137, 0.1);
+    }
+    
+    body {
+      background: white;
+      min-height: 100vh;
+    }
+    
+    .sidebar {
+      width: 64px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      top: 56px; /* Height of header */
+      z-index: 999;
+      background-color: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(12px);
+      border-radius: 0 12px 12px 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      height: auto;
+    }
+    
+    .sidebar:hover {
+      width: 240px;
+    }
+
+    .sidebar a {
+      padding: 0.75rem;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .sidebar a:hover {
+      background-color: rgba(136, 216, 137, 0.1);
+    }
+
+    .sidebar:not(:hover) {
+      width: 64px;
+    }
+
+    .sidebar:not(:hover) a {
+      justify-content: center;
+      padding: 0.75rem 0;
+    }
+
+    .sidebar:not(:hover) .nav-text {
+      opacity: 0;
+      transform: translateX(-10px);
+      width: 0;
+      margin: 0;
+    }
+
+    .nav-text {
+      transition: all 0.3s ease;
+      opacity: 1;
+      transform: translateX(0);
+      margin-left: 12px;
+      width: auto;
+    }
+
+    .sidebar li {
+      margin-bottom: 0.75rem;
+      padding: 0 0.75rem;
+    }
+
+    .sidebar svg {
+      width: 24px;
+      height: 24px;
+      min-width: 24px;
+    }
+    
+    .container {
+      max-width: 1600px !important;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    
+    .logo-text {
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+    
+    /* Common popup alignment properties */
+    .popup-alignment {
+      position: absolute;
+      right: 0;
+      left: 140px;
+      margin-top: -50px;
+      top: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(12px);
+      border-color: rgba(136, 216, 137, 0.2);
+      z-index: 1000;
+      width: auto;
+      min-width: 250px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    .sidebar-popup h3 {
+        color: #1f2937;
+    }
+
+    .sidebar-popup p {
+        color: #6b7280;
+    }
+
+    .popup-alignment:hover,
+    .group:hover .popup-alignment {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+      pointer-events: auto;
+    }
+
+    .sidebar-popup {
+      width: 320px;
+    }
+
+    .profile-popup {
+      width: 180px !important;
+    }
+
+    /* Ensure popups don't go off-screen */
+    .group:hover .popup-alignment {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+      pointer-events: auto;
+    }
+
+    /* Profile popup specific hover */
+    .group\/profile:hover .popup-alignment,
+    .group\/profile:focus-within .popup-alignment {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+      pointer-events: auto;
+    }
+
+    /* Flash deal popup specific hover */
+    .group\/flash:hover .popup-alignment,
+    .group\/flash:focus-within .popup-alignment {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+      pointer-events: auto;
+    }
+
+    /* Eco tracker popup specific hover */
+    .group\/eco:hover .popup-alignment,
+    .group\/eco:focus-within .popup-alignment {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+      pointer-events: auto;
+    }
+
+    /* Responsive popup positioning */
+    @media (max-width: 768px) {
+      .popup-alignment {
+        left: auto;
+        right: 0;
+        margin-left: 0;
+        margin-right: 8px;
+      }
+      
+      .popup-alignment:hover,
+      .group:hover .popup-alignment,
+      .group\/profile:hover .popup-alignment,
+      .group\/flash:hover .popup-alignment,
+      .group\/eco:hover .popup-alignment {
+        transform: translateX(0);
+      }
+    }
+
+    /* Dark mode popup adjustments */
+    .dark .sidebar-popup {
+      background-color: #1f2937 !important;
+      border-color: rgba(136, 216, 137, 0.2) !important;
+    }
+
+    .dark .sidebar-popup h3 {
+        color: #ffffff !important;
+    }
+
+    .dark .sidebar-popup p {
+        color: #9ca3af !important;
+    }
+
+    .search-bar {
+      padding: 0.5rem 0.75rem 0.5rem 2rem;
+      border-radius: 0.5rem;
+      outline: none;
+      width: 200px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(136, 216, 137, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .search-bar:focus {
+      width: 300px;
+      border-color: #88d889;
+      box-shadow: 0 0 0 2px rgba(136, 216, 137, 0.1);
+      background-color: rgba(255, 255, 255, 1);
+    }
+
+    .dark .search-bar {
+      background-color: rgba(31, 41, 55, 0.8);
+      border-color: rgba(75, 85, 99, 0.4);
+      color: white;
+    }
+
+    .dark .search-bar:focus {
+      background-color: rgba(31, 41, 55, 1);
+      border-color: #88d889;
+    }
+
+    .dark .search-bar::placeholder {
+      color: #9ca3af;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #6b7280;
+    }
+
+    .dark .search-icon {
+      color: #9ca3af;
+    }
+
+    /* Custom Scrollbar Styling */
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(10px);
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(136, 216, 137, 0.3);
+      border-radius: 10px;
+      border: 2px solid transparent;
+      background-clip: content-box;
+      transition: all 0.3s ease;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(136, 216, 137, 0.5);
+      border: 2px solid transparent;
+      background-clip: content-box;
+    }
+
+    /* Dark mode scrollbar */
+    .dark ::-webkit-scrollbar-track {
+      background: rgba(31, 41, 55, 0.4);
+    }
+
+    .dark ::-webkit-scrollbar-thumb {
+      background: rgba(136, 216, 137, 0.2);
+      border: 2px solid transparent;
+      background-clip: content-box;
+    }
+
+    .dark ::-webkit-scrollbar-thumb:hover {
+      background: rgba(136, 216, 137, 0.4);
+      border: 2px solid transparent;
+      background-clip: content-box;
+    }
+
+    /* Hide scrollbar when not scrolling */
+    ::-webkit-scrollbar {
+      width: 10px;
+      background: transparent;
+    }
+
+    /* Firefox scrollbar */
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(136, 216, 137, 0.3) transparent;
+    }
+
+    .dark * {
+      scrollbar-color: rgba(136, 216, 137, 0.2) rgba(31, 41, 55, 0.4);
+    }
+
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    * {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+    }
+
+    /* Circular Meter Styles */
+    .circular-meter {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      min-width: 300px;
+      min-height: 300px;
+      margin: 20px auto;
+      flex-shrink: 0;
+    }
+
+    .circular-meter svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      transform: rotate(-90deg);
+    }
+
+    .circular-meter circle {
+      fill: none;
+      stroke-width: 8;
+      stroke-linecap: round;
+    }
+
+    .circular-meter .background {
+      stroke: rgba(136, 216, 137, 0.2);
+    }
+
+    .circular-meter .progress {
+      stroke: #88d889;
+      fill: none;
+      stroke-width: 8;
+      stroke-dasharray: 534;   /* full length of circle */
+      stroke-dashoffset: 534;  /* start hidden */
+      transition: stroke-dashoffset 1.5s ease-out;
+    }
+
+
+    .circular-meter .center-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 10;
+    }
+
+    .circular-meter .percentage {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #88d889;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .circular-meter .label {
+      font-size: 1.125rem;
+      color: #6b7280;
+      font-weight: 500;
+    }
+
+    .dark .circular-meter .label {
+      color: #9ca3af;
+    }
+
+    .popup-meter {
+        width: 200px !important;
+        height: 200px !important;
+        min-width: 200px !important;
+        min-height: 200px !important;
+        margin: 1rem auto !important;
+    }
+
+    .circular-meter-container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(136, 216, 137, 0.2);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 8px 32px rgba(136, 216, 137, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .circular-meter-container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(136, 216, 137, 0.15);
+    }
+
+    .dark .circular-meter-container {
+      background: rgba(31, 41, 55, 0.95);
+      border-color: rgba(136, 216, 137, 0.3);
+    }
+
+    .meter-stats {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 1.5rem;
+      gap: 2rem;
+    }
+
+    .meter-stat {
+      text-align: center;
+      flex: 1;
+    }
+
+    .meter-stat .value {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: #88d889;
+      margin-bottom: 0.25rem;
+    }
+
+    .meter-stat .label {
+      font-size: 0.75rem;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .dark .meter-stat .label {
+      color: #9ca3af;
+    }
+
+    /* Popup-specific circular meter styles */
+    .popup-alignment .circular-meter .background {
+      stroke: rgba(255, 255, 255, 0.1);
+    }
+
+    .popup-alignment .circular-meter .progress {
+      stroke: #88d889;
+      filter: drop-shadow(0 0 6px rgba(136, 216, 137, 0.4));
+    }
+
+    .popup-alignment .circular-meter .percentage {
+      color: #88d889;
+    }
+
+    .popup-alignment .circular-meter .label {
+      color: #9ca3af;
+    }
+
+    /* Custom Modal Styles */
+    .custom-modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .custom-modal.show {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      max-width: 400px;
+      width: 90%;
+      animation: slideUp 0.3s ease;
+      text-align: center;
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .dark .modal-content {
+      background-color: #1f2937;
+    }
+
+    .modal-header {
+      margin-bottom: 1rem;
+    }
+
+    .modal-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #88d889;
+    }
+
+    .modal-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: #1f2937;
+      margin-bottom: 0.5rem;
+    }
+
+    .dark .modal-title {
+      color: white;
+    }
+
+    .modal-message {
+      color: #6b7280;
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    .dark .modal-message {
+      color: #d1d5db;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .modal-btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+    }
+
+    .modal-btn-cancel {
+      background-color: #e5e7eb;
+      color: #374151;
+    }
+
+    .modal-btn-cancel:hover {
+      background-color: #d1d5db;
+    }
+
+    .dark .modal-btn-cancel {
+      background-color: #374151;
+      color: #e5e7eb;
+    }
+
+    .dark .modal-btn-cancel:hover {
+      background-color: #4b5563;
+    }
+
+    .modal-btn-confirm {
+      background-color: #ef4444;
+      color: white;
+    }
+
+    .modal-btn-confirm:hover {
+      background-color: #dc2626;
+    }
+  </style>
+</head>
+<body class="bg-[#f5fff4] dark:bg-gray-900 transition-colors duration-200 text-gray-800 dark:text-white">
+  <!-- Header -->
+  <header class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm fixed top-0 w-full z-50 border-b dark:border-gray-700/50 border-[#88d889]/50 h-14">
+    <div class="container mx-auto h-full px-2 flex justify-between items-center">
+      <div class="flex items-center">
+        <h1 class="text-3xl font-bold tracking-wider pl-2">
+          <span class="logo-text">ReTech</span><span class="green-dot">.</span>
+        </h1>
+      </div>
+      <div class="flex items-center space-x-4">
+        <div class="relative">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 search-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input type="text" placeholder="Search products..." class="search-bar text-sm">
+        </div>
+        <button id="theme-toggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" onclick="toggleDarkMode()">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-800 dark:text-white block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-800 dark:text-white hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sidebar Navigation -->
+  <nav class="sidebar fixed left-0 h-[calc(110vh)] bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-r dark:border-gray-700/50 border-[#88d889]/50 z-40 pt-8 px-2 hover:shadow-lg overflow-visible w-16 hover:w-[240px] transition-all duration-300">
+    <ul class="space-y-6">
+      <li>
+        <a href="/" class="hover:text-[#88d889] transition-colors group flex items-center">
+          <i class="fa-solid fa-house h-6 w-6 flex-shrink-0 stroke-gray-800 dark:stroke-white mt-[5px] ml-[4px]" viewBox="0 0 24 24" fill="none"></i>
+          <span class="nav-text ml-3 whitespace-nowrap transition-all duration-300">Home</span>
+        </a>
+      </li>
+      <li>
+        <a href="/shop" class="hover:text-[#88d889] transition-colors group flex items-center">
+          <i class="fa-solid fa-store h-6 w-6 flex-shrink-0 stroke-gray-800 dark:stroke-white ml-1 mt-1" viewBox="0 0 24 24" fill="none"> </i>
+          <span class="nav-text ml-3 whitespace-nowrap transition-all duration-300 mt-[-4px]">Shop</span>
+        </a>
+      </li>
+      <li class="relative group/profile">
+        <a href="#" class="hover:text-[#88d889] transition-colors group flex items-center">
+          <i class="fa-solid fa-user h-6 w-6 flex-shrink-0 stroke-gray-800 dark:stroke-white ml-1 mt-1" viewBox="0 0 24 24" fill="none"> </i>
+          <span class="nav-text ml-3 whitespace-nowrap transition-all duration-300 mt-[-3px]">Profile</span>
+        </a>
+        <!-- Profile Dropdown -->
+        <div class="popup-alignment profile-popup bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-[#88d889]/20 dark:border-gray-700 p-6" style="width:180px;">
+          <!-- Profile Header -->
+          <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+            <div class="flex items-center">
+              <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Profile Picture" class="w-12 h-12 rounded-full border-2 border-[#88d889]">
+              <div class="ml-3 flex-1 min-w-0">
+                <h4 class="font-semibold text-gray-800 dark:text-white truncate">{{ session.get("sessionUsername", "John Doe") }}</h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400 truncate max-w-full" title="{{ session.get('sessionEmail') }}"> {{ session.get("sessionEmail", "johndoe@retech.in") }} </p>
+              </div>
+            </div>
+          </div>
+          <!-- Menu Items -->
+          <div class="py-2">
+            <a href="/orders" class="flex items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-center group">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-600 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+              <span class="text-gray-800 dark:text-white">Orders</span>
+            </a>
+            <a href="/settings" class="flex items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-center group">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-600 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+              </svg>
+              <span class="text-gray-800 dark:text-white">Settings</span>
+            </a>
+            <a href="/rewards" class="flex items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-center group">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-600 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span class="text-gray-800 dark:text-white">Rewards</span>
+            </a>
+            <div class="border-t border-gray-200 dark:border-gray-700 my-2"></div>
+            <a href="/logout" class="flex items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-center group text-red-500">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+              <span>Logout</span>
+            </a>
+          </div>
+        </div>
+      </li>
+      <li class="relative group/eco">
+        <a href="#" class="hover:text-[#88d889] transition-colors group flex items-center">
+          <i class="fa-solid fa-leaf h-6 w-6 flex-shrink-0 stroke-gray-800 dark:stroke-white mt-[5px]" viewBox="0 0 24 24" fill="none"></i>
+          <span class="nav-text ml-3 whitespace-nowrap transition-all duration-300">Eco Tracker</span>
+        </a>
+        <!-- Eco Meter Popup -->
+        <div class="popup-alignment sidebar-popup rounded-2xl shadow-2xl border p-8 flex flex-col items-center transition-colors text-center group" style="min-width: 400px; width: auto;">
+          <div class="text-center mb-6">
+            <h3 class="text-2xl font-bold text-white">Eco Score</h3>
+            <p class="text-base text-gray-400 mt-1">Your environmental impact</p>
+          </div>
+          
+          <!-- Circular Meter in Popup -->
+          <div class="circular-meter popup-meter">
+            <svg viewBox="0 0 200 200" width="100%" height="100%">
+              <circle class="background" cx="100" cy="100" r="85" />
+              <circle class="progress" cx="100" cy="100" r="85"/>
+            </svg>
+            <div class="center-content">
+              <div class="percentage">75%</div>
+              <div class="label">Eco Score</div>
+            </div>
+          </div>
+          <div class="meter-stats">
+            <div class="meter-stat">
+              <div class="value">12</div>
+              <div class="label">Items Recycled</div>
+            </div>
+            <div class="meter-stat">
+              <div class="value">5.2kg</div>
+              <div class="label">CO₂ Saved</div>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <a href="/favourites" class="hover:text-[#88d889] transition-colors group flex items-center">
+          <i class="fa-solid fa-cart-shopping h-6 w-6 flex-shrink-0 stroke-gray-800 dark:stroke-white mt-[5px]" viewBox="0 0 28 28" fill="none"></i>
+          <span class="nav-text ml-3 whitespace-nowrap transition-all duration-300">Shoping Cart</span>
+        </a>
+      </li>
+      <li>
+        <a href="/favourites" class="hover:text-[#88d889] transition-colors group flex items-center">
+          <i class="fa-solid fa-heart h-6 w-6 flex-shrink-0 stroke-gray-800 dark:stroke-white mt-[5px]" viewBox="0 0 28 28" fill="none"></i>
+          <span class="nav-text ml-3 whitespace-nowrap transition-all duration-300">Favourites</span>
+        </a>
+      </li>
+      <li class="relative group">
+        <a href="#" class="hover:text-[#88d889] transition-colors group flex items-center">
+          <i class="fa-solid fa-money-bills h-6 w-6 flex-shrink-0 stroke-gray-800 dark:stroke-white mt-[5px]"></i>
+          <span class="nav-text ml-3 whitespace-nowrap transition-all duration-300 mt-[-0.5px]">Sell</span>
+        </a>
+        
+        <!-- Sell Dropdown -->
+        <div class="popup-alignment w-72 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-0">
+          <!-- Stats Section -->
+          <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+            <div class="text-center">
+              <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">Total Products Sold</p>
+              <p class="text-2xl font-bold text-[#88d889]">24</p>
+            </div>
+          </div>
+          
+          <!-- Options Grid -->
+          <div class="grid grid-cols-2 gap-3 p-4">
+            <a href="/sell-history" class="flex flex-col items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-center group">
+              <i class="fa-solid fa-clock-rotate-left h-5 w-5 mb-2 text-gray-600 dark:text-gray-400 group-hover:text-[#88d889] transition-colors mt-[4px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="font-size: 18px;"></i>
+              <span class="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-[#88d889] transition-colors mb-[-20px]">View History</span>
+            </a>
+            <a href="/sell" class="flex flex-col items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-center group">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mb-2 text-gray-600 dark:text-gray-400 group-hover:text-[#88d889] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg>
+              <span class="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-[#88d889] transition-colors">New Listing</span>
+            </a>
+          </div>
+        </div>
+      </li>
+      <li class="relative group/flash">
+        <a href="#" class="hover:text-[#88d889] transition-colors group flex items-center">
+          <i class="fa-solid fa-bolt-lightning h-6 w-6 flex-shrink-0 stroke-gray-800 dark:stroke-white mt-[5px] ml-[8px]" viewBox="0 0 24 24" fill="none"></i>
+          <span class="nav-text ml-3 whitespace-nowrap transition-all duration-300">Flash Deals</span>
+        </a>
+        <!-- Flash Sale Popup -->
+        <div class="popup-alignment sidebar-popup bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-[#88d889]/20 dark:border-gray-700 p-6">
+          <div class="text-center mb-4">
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Flash Sale</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400" id="flash-sale-status">Next sale starts in:</p>
+          </div>
+          <!-- Countdown Timer -->
+          <div class="flex justify-center space-x-3 mb-4" id="flash-sale-countdown">
+            <div class="bg-gradient-to-br from-[#88d889] to-[#78c879] text-white px-3 py-2 rounded-lg shadow-sm text-center min-w-[60px]">
+              <span class="text-xl font-bold block" id="days">00</span>
+              <span class="text-xs">days</span>
+            </div>
+            <div class="bg-gradient-to-br from-[#88d889] to-[#78c879] text-white px-3 py-2 rounded-lg shadow-sm text-center min-w-[60px]">
+              <span class="text-xl font-bold block" id="hours">00</span>
+              <span class="text-xs">hrs</span>
+            </div>
+            <div class="bg-gradient-to-br from-[#88d889] to-[#78c879] text-white px-3 py-2 rounded-lg shadow-sm text-center min-w-[60px]">
+              <span class="text-xl font-bold block" id="minutes">00</span>
+              <span class="text-xs">min</span>
+            </div>
+            <div class="bg-gradient-to-br from-[#88d889] to-[#78c879] text-white px-3 py-2 rounded-lg shadow-sm text-center min-w-[60px]">
+              <span class="text-xl font-bold block" id="seconds">00</span>
+              <span class="text-xs">sec</span>
+            </div>
+          </div>
+          <!-- Flash Sale Status -->
+          <div class="text-center">
+            <div class="bg-gradient-to-r from-red-500 to-pink-500 text-white px-4 py-2 rounded-lg mb-3" id="flash-sale-live" style="display: none;">
+              <span class="font-semibold">🔥 FLASH SALE LIVE! 🔥</span>
+            </div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Up to 50% off on selected items every Sunday!</p>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="container mx-auto py-10 px-4 flex flex-col md:flex-row gap-8 mt-[5rem] ml-[6rem] bg-white dark:bg-gray-800 rounded-xl">
+    <!-- Product Image -->
+    <div class="flex-1 flex flex-col items-center mt-[6rem] ">
+      <img id="product-image" src="" alt="Product Image" class="w-120 h-120 object-contain rounded-lg border shadow-md mb-4 bg-[#dddddd] dark:bg-[#1f1f23] dark:border-[#1f1f23]">
+      <div id="product-tags" class="flex flex-wrap gap-2 mt-2"></div>
+    </div>
+    
+    <!-- Product Details -->
+    <div class="flex-1">
+      <h1 id="product-name" class="text-6xl font-bold mb-2 mt-[2rem]"></h1>
+      <h2 id="product-brand" class="text-lg text-gray-500 mb-2"></h2>
+      <div class="flex items-center gap-4 mb-4">
+        <span id="product-price" class="text-2xl font-semibold text-[#88d889]"></span>
+        <span id="product-original-price" class="text-lg line-through text-gray-400"></span>
+        <span id="product-discount" class="text-sm text-red-500 font-medium"></span>
+      </div>
+      <div class="mb-4">
+        <span class="inline-block bg-yellow-400 text-white px-2 py-1 rounded text-xs font-semibold mr-2">Rating: <span id="product-rating"></span></span>
+        <span class="text-xs text-gray-500">(<span id="product-reviews"></span> reviews)</span>
+      </div>
+      <div class="mb-6">
+        <span class="font-semibold">Condition:</span> <span id="product-condition"></span><br>
+        <span class="font-semibold">Stock:</span> <span id="product-stock"></span>
+      </div>
+      <div>
+        <button class="text-[#88d889] font-semibold py-2 px-8 rounded-lg transition-all mb-4 hover:shadow-[inset_0_0_0_3px_#88d889]">
+          <i class="fa-solid fa-bolt-lightning mr-2"></i>
+          Buy Now!
+        </button>
+        <button class="bg-[#88d889] hover:bg-[#78c879] text-white font-semibold py-2 px-8 rounded-lg transition-colors mb-4">
+          <i class="fa-solid fa-cart-shopping mr-2"></i>
+          Add to Cart
+        </button>
+      </div>
+      <div class="mb-6" id="product-description"></div>
+      <div class="mb-6">
+        <h3 class="font-semibold text-lg mb-2">Specifications</h3>
+        <ul id="product-specs" class="list-disc pl-6 text-gray-800 dark:text-gray-200"></ul>
+      </div>
+    </div>
+  </div>
+
+
+
+     <!-- Chat Widget -->
+  <div
+    id="chat-widget" class="fixed right-6 bottom-6 z-[10000]
+          w-[360px] max-w-[calc(100vw-48px)] h-[580px]
+          hidden flex-col overflow-hidden
+          rounded-2xl shadow-2xl backdrop-blur-md
+          bg-white/95 dark:bg-gray-900/95
+          border border-[#88d889]/40 dark:border-gray-700" aria-live="polite" aria-label="Ghost assistant">
+    <!-- Header -->
+    <div
+      class="flex items-center justify-between px-4 py-3 bg-gradient-to-br from-[#88d889] to-[#78c879]dark:from-gray-800 dark:to-gray-800 text-black dark:text-white font-semibold">
+      <span class="flex items-center gap-2">
+        <img src="/src/images/ghost.png" alt="Ghost avatar" class="w-7 h-7 rounded-full border-2 border-white/70 bg-white object-cover"/>Ghost
+      </span>
+      <button id="chat-close" class="bg-white/20 text-black/70 dark:text-white hover:bg-red-500/80 transition rounded-lg px-3 py-1.5 text-white" type="button" aria-label="Close chat" >
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div id="chat-loading" class="flex-1 flex items-center justify-center bg-white/60 dark:bg-gray-800/60" >
+      <div id="chat-loading-lottie" class="w-[120px] h-[120px]"></div>
+    </div>
+    <div id="chat-body" class="hidden flex-1 px-4 py-3 space-y-3 overflow-y-auto">
+      <div class="flex items-start gap-2">
+        <img src="/src/images/ghost.png" class="w-7 h-7 rounded-full border bg-white"/>
+        <div class="max-w-[80%] rounded-xl px-3 py-2 text-sm leading-relaxed bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-100">
+          Hi! I’m your ghost assistant 👻  
+          Ask me anything!
+        </div>
+      </div>
+    </div>
+
+    <form id="chat-form" class="hidden flex items-end gap-2 px-3 py-2 border-t border-[#88d889]/30 dark:border-gray-700 bg-white dark:bg-gray-900">
+      <textarea id="chat-input" rows="1" placeholder="Type your message…" autocomplete="off" class="flex-1 min-h-[40px] max-h-[140px] min-w-[140px] resize-none rounded-xl px-4 py-2 text-sm border border-[#88d889]/40 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 outline-none focus:ring-2 focus:ring-[#88d889]/30 overflow-y-auto"></textarea>
+      <button type="submit" class="h-[40px] rounded-full px-4 font-semibold bg-[#88d889] hover:bg-[#78c879] text-white transition fa-solid fa-arrow-right-long"></button>
+    </form>
+
+  </div>
+
+  <a href="#" id="ghost">
+    <div id="ghost-lottie" class="fixed bottom-6 right-6 z-[9999] w-[100px] h-[100px] bg-transparent"></div>
+  </a>
+  <script>
+    const ghostAnim = lottie.loadAnimation({
+      container: document.getElementById("ghost-lottie"),
+      renderer: "svg",      // SVG = best for UI
+      loop: true,           // 🔁 infinite
+      autoplay: true,       // ▶️ auto play
+      path: "/src/annimations/ghost-hover.json",
+    });
+    ghostAnim.setSpeed(1);
+
+    const ghostButton = document.getElementById("ghost");
+    const chatWidget = document.getElementById("chat-widget");
+    const chatBody = document.getElementById("chat-body");
+    const chatForm = document.getElementById("chat-form");
+    const chatInput = document.getElementById("chat-input");
+    const chatClose = document.getElementById("chat-close");
+    const chatLoading = document.getElementById("chat-loading");
+    let chatLoadingAnim = null;
+    let hasLoadedChat = false;
+
+    const defaultGreeting = {
+      role: "assistant",
+      content: "Hi! I’m your ghost assistant 👻 Ask me anything!"
+    };
+
+    let chatHistory = [];
+
+    const renderHistory = (history) => {
+      chatBody.innerHTML = "";
+      history.forEach((item) => {
+        const role = item.role === "user" ? "user" : "bot";
+        appendMessage(item.content, role);
+      });
+    };
+
+    const loadChatHistory = async () => {
+      try {
+        const response = await fetch("/api/chat/history");
+        const data = await response.json().catch(() => ({}));
+        if (response.ok && data.status === "success" && Array.isArray(data.history) && data.history.length) {
+          chatHistory = data.history;
+        } else {
+          chatHistory = [defaultGreeting];
+        }
+      } catch (error) {
+        chatHistory = [defaultGreeting];
+      }
+      renderHistory(chatHistory);
+    };
+
+    const openChat = () => {
+      chatWidget.classList.remove("hidden");
+      chatWidget.classList.add("flex");
+      ghostButton.classList.add("hidden");
+      chatBody.classList.add("hidden");
+      chatForm.classList.add("hidden");
+      chatLoading.classList.remove("hidden");
+      if (!chatLoadingAnim) {
+        chatLoadingAnim = lottie.loadAnimation({
+          container: document.getElementById("chat-loading-lottie"),
+          renderer: "svg",
+          loop: true,
+          autoplay: true,
+          path: "/src/annimations/ghost-reveal.json",
+        });
+      } else {
+        chatLoadingAnim.stop();
+        chatLoadingAnim.play();
+      }
+
+      setTimeout(async () => {
+        if (!hasLoadedChat) {
+          await loadChatHistory();
+        }
+        chatLoading.classList.add("hidden");
+        chatBody.classList.remove("hidden");
+        chatForm.classList.remove("hidden");
+        chatInput.focus();
+        resizeChatInput();
+        hasLoadedChat = true;
+      }, 1500);
+    };
+
+    const closeChat = () => {
+      chatWidget.classList.add("hidden");
+      chatWidget.classList.remove("flex");
+      ghostButton.classList.remove("hidden");
+    };
+
+    ghostButton.addEventListener("click", (event) => {
+      event.preventDefault();
+      if (!chatWidget.classList.contains("hidden")) {
+        closeChat();
+      } else {
+        openChat();
+      }
+    });
+
+    chatClose.addEventListener("click", closeChat);
+
+    const appendMessage = (text, type) => {
+      const message = document.createElement("div");
+      const isUser = type === "user";
+      message.className = `flex items-start gap-2 mb-3 ${isUser ? 'justify-end' : ''}`;
+      const avatarHtml = isUser
+        ? ''
+        : '<img src="/src/images/ghost.png" alt="Ghost avatar" class="w-7 h-7 rounded-full border-2 border-white/70 bg-white object-cover" />';
+      const bubbleClass = isUser
+        ? 'max-w-[80%] text-sm leading-relaxed bg-[#88d889]/20 dark:bg-[#88d889]/80 dark:text-white text-gray-800 border border-[#88d889]/30 rounded-xl px-3 py-2'
+        : 'max-w-[80%] text-sm leading-relaxed bg-gray-100 dark:bg-[#374151] dark:text-white dark:border-[#374151] text-gray-800 border border-gray-200 rounded-xl px-3 py-2';
+      message.innerHTML = `${avatarHtml}<div class="${bubbleClass}">${text}</div>`;
+      chatBody.appendChild(message);
+      chatBody.scrollTop = chatBody.scrollHeight;
+    };
+
+    const sendToChatApi = async (text) => {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: text,
+          history: chatHistory.slice(-6)
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || "Chat service error");
+      }
+
+      const data = await response.json();
+      if (data.status !== "success") {
+        throw new Error(data.message || "Chat service error");
+      }
+
+      return data;
+    };
+
+    const resizeChatInput = () => {
+      chatInput.style.height = "auto";
+      const nextHeight = Math.min(chatInput.scrollHeight, 140);
+      chatInput.style.height = `${Math.max(nextHeight, 40)}px`;
+    };
+
+    chatInput.addEventListener("input", resizeChatInput);
+
+    chatInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        chatForm.requestSubmit();
+      }
+    });
+
+    chatForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const text = chatInput.value.trim();
+      if (!text) return;
+      appendMessage(text, "user");
+      chatHistory.push({ role: "user", content: text });
+      chatInput.value = "";
+      resizeChatInput();
+      chatInput.disabled = true;
+
+      try {
+        const data = await sendToChatApi(text);
+        appendMessage(data.reply, "bot");
+        if (Array.isArray(data.history) && data.history.length) {
+          chatHistory = data.history;
+        } else {
+          chatHistory.push({ role: "assistant", content: data.reply });
+        }
+      } catch (error) {
+        appendMessage("Sorry, I couldn’t reach the chat service. Please try again.", "bot");
+      } finally {
+        chatInput.disabled = false;
+        chatInput.focus();
+      }
+    });
+  </script>
+    <!-- Footer -->
+    <footer class="pl-24 bg-white dark:bg-gray-800 backdrop-blur-sm border-t dark:border-gray-700 border-[#88d889]/20 mt-16">
+      <div class="container mx-auto px-4 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-8">
+          <!-- Company Info -->
+          <div>
+            <h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-white">About Us</h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-4">Your one-stop shop for premium tech and gaming gear. Quality products, competitive prices, excellent service.</p>
+          </div>
+  
+          <!-- Quick Links -->
+          <div>
+            <h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-white">Quick Links</h3>
+            <ul class="space-y-2">
+              <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-[#88d889]">About Us</a></li>
+              <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-[#88d889]">Contact</a></li>
+              <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-[#88d889]">Blog</a></li>
+              <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-[#88d889]">FAQs</a></li>
+            </ul>
+          </div>
+  
+          <!-- Customer Service -->
+          <div>
+            <h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-white">Customer Service</h3>
+            <ul class="space-y-2">
+              <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-[#88d889]">Shipping Policy</a></li>
+              <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-[#88d889]">Returns & Exchanges</a></li>
+              <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-[#88d889]">Terms & Conditions</a></li>
+              <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-[#88d889]">Privacy Policy</a></li>
+            </ul>
+          </div>
+  
+          <!-- Legal Links -->
+          <div>
+            <h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-white">Legal</h3>
+            <ul class="space-y-2">
+              <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-[#88d889]">Terms</a></li>
+              <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-[#88d889]">Privacy</a></li>
+              <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-[#88d889]">Cookies</a></li>
+            </ul>
+          </div>
+  
+          <!-- Newsletter -->
+          <div>
+            <h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-white">Stay Updated</h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-4">Subscribe to our newsletter for the latest updates and exclusive offers.</p>
+            <form class="space-y-2">
+              <input type="email" placeholder="Enter your email" class="w-full px-4 py-2 rounded-lg border dark:border-gray-700 border-[#88d889]/20 focus:outline-none focus:border-[#88d889] bg-white dark:bg-gray-800">
+              <button type="submit" class="w-full px-4 py-2 bg-[#88d889] hover:bg-[#78c879] text-white rounded-lg transition-colors">Subscribe</button>
+            </form>
+          </div>
+        </div>
+  
+        <!-- Bottom Bar -->
+        <div class="border-t border-[#88d889]/20 dark:border-gray-700 mt-8 pt-8">
+          <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+            <div class="flex items-center mb-4 md:mb-0">
+              <div class="relative w-16 h-16 bg-black rounded-lg overflow-hidden group transition-transform duration-300 hover:scale-125">
+                <img src="/src/images/HackWolf.png" 
+                     alt="Wolf Logo" 
+                     class="w-[200%] h-[200%] object-contain absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:opacity-0 transition-all duration-300">
+                <img src="/src/images/HackWolf.gif" 
+                     alt="Wolf Animation" 
+                     class="w-[200%] h-[200%] object-contain absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300">
+              </div>
+              <div class="h-12 w-px bg-[#88d889] mx-3"></div>
+              <div class="flex flex-col justify-center">
+                <h3 class="text-3xl font-bold leading-none text-gray-800 dark:text-white" style="font-family: Verdana, Geneva, Tahoma, sans-serif">
+                  <span class="text-gray-900 dark:text-white">ReTech</span>
+                  <span class="text-[#88d889]">.</span>
+                </h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400 italic">—A HackWolf Initiative</p>
+              </div>
+            </div>
+            <p class="text-gray-600 dark:text-gray-400 text-sm mx-4">&copy; 2025 ReTech. All rights reserved.</p>
+            <div class="flex space-x-4">
+              <a href="https://facebook.com" class="text-[#88d889] hover:text-[#78c879] transition-all duration-300 hover:scale-110 hover:shadow-lg inline-block rounded-full p-2">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+              </a>
+              <a href="https://twitter.com" class="text-[#88d889] hover:text-[#78c879] transition-all duration-300 hover:scale-110 hover:shadow-lg inline-block rounded-full p-2">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              </a>
+              <a href="https://instagram.com" class="text-[#88d889] hover:text-[#78c879] transition-all duration-300 hover:scale-110 hover:shadow-lg inline-block rounded-full p-2">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M16.98 0a6.9 6.9 0 0 1 5.08 1.98A6.94 6.94 0 0 1 24 7.02v9.96c0 2.08-.68 3.87-1.98 5.13A7.14 7.14 0 0 1 16.94 24H7.06a7.06 7.06 0 0 1-5.03-1.89A6.96 6.96 0 0 1 0 16.94V7.02C0 2.8 2.8 0 7.02 0h9.96zm.05 2.23H7.06c-1.45 0-2.7.43-3.53 1.25a4.82 4.82 0 0 0-1.3 3.54v9.92c0 1.5.43 2.7 1.3 3.58a5 5 0 0 0 3.53 1.25h9.88a5 5 0 0 0 3.53-1.25 4.73 4.73 0 0 0 1.4-3.54V7.02a5 5 0 0 0-1.3-3.49 4.82 4.82 0 0 0-3.54-1.3zM12 5.76c3.39 0 6.2 2.8 6.2 6.2a6.2 6.2 0 0 1-12.4 0 6.2 6.2 0 0 1 6.2-6.2zm0 2.22a3.99 3.99 0 0 0-3.97 3.97A3.99 3.99 0 0 0 12 15.92a3.99 3.99 0 0 0 3.97-3.97A3.99 3.99 0 0 0 12 7.98zm6.44-3.77a1.4 1.4 0 1 1 0 2.8 1.4 1.4 0 0 1 0-2.8z"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>  
+
+  <script id="product-data" type="application/json">
+    {{ product | tojson }}
+  </script>
+
+  <script>
+    const product = JSON.parse(
+      document.getElementById("product-data").textContent
+    );
+    window.productData = product;
+  </script>
+
+  <script src="/src/scripts/product_page.js"></script>
+  <script>
+    function toggleDarkMode() {
+      const html = document.documentElement;
+      const isDark = html.classList.contains('dark');
+      const darkModeToggle = document.getElementById('theme-toggle');
+      
+      if (isDark) {
+        html.classList.remove('dark');
+        localStorage.setItem('darkMode', 'light');
+      } else {
+        html.classList.add('dark');
+        localStorage.setItem('darkMode', 'dark');
+      }
+    }
+
+    // Check for saved dark mode preference
+    document.addEventListener('DOMContentLoaded', () => {
+      const darkMode = localStorage.getItem('darkMode');
+      if (darkMode === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+    });
+  </script>
+  <script>
+// Flash Sale Countdown Timer
+class FlashSaleTimer {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        this.updateTimer();
+        setInterval(() => this.updateTimer(), 1000);
+    }
+
+    updateTimer() {
+        const now = new Date();
+        const currentDay = now.getDay(); // 0 = Sunday, 1 = Monday, etc.
+        const currentTime = now.getTime();
+        
+        // Calculate next Sunday at 00:00:00
+        let daysUntilSunday = (7 - currentDay) % 7;
+        if (daysUntilSunday === 0 && now.getHours() >= 0 && now.getMinutes() >= 0) {
+            // It's Sunday and past midnight, so next Sunday is in 7 days
+            daysUntilSunday = 7;
+        }
+        
+        const nextSunday = new Date();
+        nextSunday.setDate(now.getDate() + daysUntilSunday);
+        nextSunday.setHours(0, 0, 0, 0);
+        
+        // Calculate time until next Sunday
+        const timeUntilNextSunday = nextSunday.getTime() - currentTime;
+        
+        // Check if it's currently Sunday (flash sale day)
+        const isSunday = currentDay === 0;
+        const isFlashSaleTime = isSunday && now.getHours() >= 0 && now.getHours() < 24;
+        
+        if (isFlashSaleTime) {
+            // Flash sale is live
+            this.showFlashSaleLive();
+        } else {
+            // Show countdown to next flash sale
+            this.showCountdown(timeUntilNextSunday);
+        }
+    }
+
+    showFlashSaleLive() {
+        const statusElement = document.getElementById('flash-sale-status');
+        const countdownElement = document.getElementById('flash-sale-countdown');
+        const liveElement = document.getElementById('flash-sale-live');
+        
+        if (statusElement) statusElement.textContent = 'Flash sale is live!';
+        if (countdownElement) countdownElement.style.display = 'none';
+        if (liveElement) liveElement.style.display = 'block';
+    }
+
+    showCountdown(timeRemaining) {
+        const statusElement = document.getElementById('flash-sale-status');
+        const countdownElement = document.getElementById('flash-sale-countdown');
+        const liveElement = document.getElementById('flash-sale-live');
+        
+        if (statusElement) statusElement.textContent = 'Next sale starts in:';
+        if (countdownElement) countdownElement.style.display = 'flex';
+        if (liveElement) liveElement.style.display = 'none';
+        
+        // Calculate days, hours, minutes, seconds
+        const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+        
+        // Update countdown elements
+        const daysElement = document.getElementById('days');
+        const hoursElement = document.getElementById('hours');
+        const minutesElement = document.getElementById('minutes');
+        const secondsElement = document.getElementById('seconds');
+        
+        if (daysElement) daysElement.textContent = days.toString().padStart(2, '0');
+        if (hoursElement) hoursElement.textContent = hours.toString().padStart(2, '0');
+        if (minutesElement) minutesElement.textContent = minutes.toString().padStart(2, '0');
+        if (secondsElement) secondsElement.textContent = seconds.toString().padStart(2, '0');
+    }
+}
+
+// Initialize flash sale timer when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    new FlashSaleTimer();
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+      const darkMode = localStorage.getItem('darkMode');
+      if (darkMode === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const progressCircle = document.querySelector('.circular-meter .progress');
+    if (progressCircle) {
+      const radius = progressCircle.r.baseVal.value;
+      const circumference = 2 * Math.PI * radius;
+
+      const percentage = 75; // <-- dynamically replace with your score
+      const offset = circumference - (percentage / 100) * circumference;
+
+      console.log({ radius, circumference, percentage, offset });
+
+
+      progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+      progressCircle.style.strokeDashoffset = circumference;
+
+      setTimeout(() => {
+        progressCircle.style.transition = "stroke-dashoffset 1.5s ease-out";
+        progressCircle.style.strokeDashoffset = offset;
+      }, 300);
+    }
+  });
+
+  document.addEventListener("DOMContentLoaded", function() {
+    document.body.style.zoom = "89%";
+    });
+
+</script>
